@@ -1,9 +1,6 @@
 #include <map>
 
-class Solution {
-    map<char,char> hMap;
-    
-    
+class Solution {  
 public:
     bool isValid(string s) {
         stack<char> stk;
