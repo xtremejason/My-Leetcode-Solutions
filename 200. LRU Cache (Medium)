@@ -1,0 +1,92 @@
+#include <map>
+#include <list>
+#include <unordered_map>
+using namespace std;
+
+
+
+
+class LRUCache {
+public:
+    unordered_map<int, pair<list<int>::iterator, int>> LRU_map;
+    list<int> cache;
+    int max_capacity;
+    
+    
+    LRUCache(int capacity) {
+        max_capacity = capacity;
+    }
+    
+    void moveToFirst(int key){
+        cache.erase(LRU_map[key].first);
+        cache.push_front(key);
+        LRU_map[key].first = cache.begin();
+    }
+    
+    
+    int get(int key) {
+        //if key is not found
+        if(LRU_map.find(key) == LRU_map.end()) {
+            return -1;
+        }
+        //when key is found
+        moveToFirst(key);
+        return LRU_map[key].second;
+    }
+    
+    
+    void put(int key, int value) {
+        //if key exists in map
+        if(LRU_map.find(key) != LRU_map.end()){
+            LRU_map[key].second = value;
+            moveToFirst(key);
+        } 
+        
+        //if key is not in map
+        else{
+            cache.push_front(key);
+            LRU_map[key] = {cache.begin(), value};
+            max_capacity--;
+        }
+        
+        if(max_capacity < 0){
+            LRU_map.erase(cache.back());
+            cache.pop_back();
+            max_capacity++;
+        }
+        
+    } 
+};
+
+/*
+
+Algorithm Outline:
+
+LRUCache()
+1. key -> (addr, value)
+2. List, will contain keys
+3. cap=capacity
+
+Get
+1. if found, movetofirst for key, return. Else -1
+
+Put
+1. if exist, update.
+2. else add
+3. move to first
+4. if >capacity, remove last in list i.e. LRU
+
+Move to first
+1. erase element
+2. add to first
+3. store first addr in ht
+
+*/
+
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
