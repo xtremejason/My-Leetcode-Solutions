@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int getSum(int a, int b) {
+        int counter = 0;
+        int c;
+        while(b != 0){
+            //carry variable - finds where the 1's overlap
+            c = a&b;
+            a = a^b;
+            b = (unsigned int)c<<1;
+        }
+        
+        return a;
+    }
+};
