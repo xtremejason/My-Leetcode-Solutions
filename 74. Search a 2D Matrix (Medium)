@@ -1,0 +1,38 @@
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int storeRow;
+        int beginRowVal;
+        int endRowVal;
+        
+        //Loops through only the rows to find the row that the target may be in.
+        for(int i=0; i<matrix.size(); i++){
+            storeRow = i;
+            beginRowVal = matrix[i][0];
+            endRowVal = matrix[i][matrix[0].size()-1];
+            //once row is found then break loop
+            if(beginRowVal <= target && endRowVal >= target)
+                break;      
+        }
+        
+        //Loops through the candidate row to see if target exists, and return true if found
+        for(int i=0; i<matrix[0].size(); i++){
+            if(matrix[storeRow][i] == target)
+                return true;   
+        }
+        return false;
+    }
+};
+    
+    
+// Brute Force Solution to compare Runtime and Memory Usage    
+/*
+        for(int i=0; i<matrix.size(); i++){
+            for(int j=0; j<matrix[0].size(); j++){
+                if(matrix[i][j] == target)
+                    return true;
+            }
+        }
+        return false;
+    }
+*/
