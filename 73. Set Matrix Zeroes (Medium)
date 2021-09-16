@@ -1,0 +1,39 @@
+// Idea: Store the positions of rows and cols to later turn to 0's
+//       We need to store these positions and iterate through them later
+
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        //Stores rows positions of 0
+        vector<int> horizontals;
+        //Stores col position of zeroes
+        vector<int> verticals;
+        
+        //Loops through entire matrix to store 0 positions 
+        for(int i = 0; i < matrix.size(); i++){
+            for(int j = 0; j < matrix[0].size(); j++){
+                if(matrix[i][j] == 0){
+                    horizontals.push_back(i);
+                        verticals.push_back(j);
+                }
+            }
+        }
+        
+        //Looks at all rows with zeroes and convert those rows to all 0's
+        for(int i=0; i< horizontals.size(); i++){
+            int row = horizontals[i];
+            for(int j = 0; j <matrix[0].size(); j++){
+                matrix[row][j] = 0;
+            }
+        }
+        
+        //Looks at all cols with zeroes and convert those rows to all 0's
+        for(int i=0; i< verticals.size(); i++){
+            int col = verticals[i];
+            for(int j = 0; j<matrix.size(); j++){
+                matrix[j][col] = 0;
+            }
+        }
+        
+    }
+};
