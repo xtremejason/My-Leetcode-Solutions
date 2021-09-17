@@ -1,0 +1,16 @@
+class Solution {
+public:
+    //Hash Table Implementation
+    bool containsDuplicate(vector<int>& nums) {
+        map<int, int> sumMap;
+        for(int x: nums){
+            sumMap[x]++;
+        }
+        
+        for(auto x: sumMap){
+            if(x.second >= 2)
+                return true;     
+        }
+        return false;
+    }
+};
