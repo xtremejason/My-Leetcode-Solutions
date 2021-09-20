@@ -1,0 +1,28 @@
+class Solution {
+public:
+    bool isRobotBounded(string instructions) {
+        int x = 0;
+        int y = 0;
+        int i = 0;
+        // Up, Right, Down, Left
+        vector<vector<int>> d = { {0,1}, {1,0}, {0,-1}, {-1,0} };
+        
+        for(char ins : instructions){
+            //LEFT
+            if(ins == 'L'){
+                i = (i+3) % 4;
+            }
+            //RIGHT
+            else if(ins == 'R'){
+                i = (i+1) % 4;
+            }
+            //GO
+            else{
+                x += d[i][0];
+                y += d[i][1];
+            }
+        } 
+        
+        return (x == 0 && y == 0) || i > 0;
+    }
+};
