@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int numPairsDivisibleBy60(vector<int>& time) {
+        vector<int> count(60, 0);
+        
+        int res = 0;
+        for(int t: time){
+            res += count[(600-t) % 60];
+            // cout << "t in time: " << t << endl;
+            // cout << "count[(600-t) % 60]: " << count[(600-t) % 60] << endl;
+            // cout << "600-t % 60: " << (600-t) % 60 << endl; 
+            // cout << endl;
+            count[t % 60] += 1;
+        }
+
+        return res;
+    }
+};
+
