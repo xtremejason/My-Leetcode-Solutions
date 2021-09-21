@@ -1,0 +1,52 @@
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        vector<string> ans;
+        map<string, int> Map;
+        vector<pair<int, string>> pairs;
+        
+        //initialize map (word-to-count)
+        for(string w : words){
+            Map[w]++;    
+        }
+        
+        //Make new vector of pairs
+        for(auto x : Map){
+            pairs.push_back(make_pair(x.second, x.first));
+        }
+        
+        //sort pairs by # occurrences
+        sort(pairs.begin(), pairs.end(), greater());
+        
+        //add to answers
+        int prev_x = pairs[0].first;
+        vector<string> stage;
+        
+        for(auto x : pairs){
+            //while words with same # counts, add to staging area
+            if(x.first == prev_x){
+                stage.push_back(x.second);
+            //new word with different # count as previous
+            } else {
+                sort(stage.begin(), stage.end());
+                ans.insert(ans.end(), stage.begin(), stage.end());
+                stage.clear();
+                stage.push_back(x.second);
+                prev_x = x.first;
+            }
+        }
+        //add remaining stage to answer 
+        if(!stage.empty()){
+            sort(stage.begin(), stage.end());
+            ans.insert(ans.end(), stage.begin(), stage.end());
+            stage.clear();
+        }
+        
+        //pop ans until k size is achieved
+        while(ans.size() != k){
+            ans.pop_back();
+        }
+        
+        return ans;
+    }
+};
