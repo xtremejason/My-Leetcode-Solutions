@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int lengthOfLastWord(string s) {
+        if(s.empty())
+            return 0;
+        
+        while(s.substr(s.size()-1, 1) == " "){
+            s.replace(s.end()-1, s.end(), "");
+        }
+        
+        while(s.substr(0, 1) == " "){
+            s.replace(s.begin(), s.begin()+1, "");
+        }
+            
+        string newstring = s.substr(s.find_last_of(" ") + 1, s.size() - s.find_last_of(" "));
+        cout << "my string is: " << newstring << endl;
+        
+        return newstring.size();
+    }
+};
