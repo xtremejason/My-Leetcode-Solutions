@@ -5,7 +5,7 @@ public:
         map<string, int> Map;
         vector<pair<int, string>> pairs;
         
-        //initialize map (word-to-count)
+        //Initialize map (word-to-count)
         for(string w : words){
             Map[w]++;    
         }
