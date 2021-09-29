@@ -1,4 +1,4 @@
-//Brute Force - Binary Search Possible..
+//Brute Force - Binary Search Possible...
 class Solution {
 public:
     int mySqrt(int x) {
