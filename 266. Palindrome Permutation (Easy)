@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool canPermutePalindrome(string s) {
+        unordered_map<char, int> Map;
+        if(s.length() == 1)
+            return true;
+        
+        //populate map with occurrence #'s
+        for(int i=0; i<s.length(); i++){
+            Map[s.at(i)]++;  
+        }
+        
+        //There can only be 1 odd num of char 
+        int odds = 0;
+        for(auto x : Map){
+            if(x.second % 2 != 0)
+                odds++;
+            if(odds > 1)
+                return false;
+        }
+        
+        return true;
+    }
+};
