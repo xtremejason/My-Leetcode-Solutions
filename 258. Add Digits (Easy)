@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int addDigits(int num) {
+        int ans = 0;
+        string num_string = to_string(num);
+
+        if(num < 10)
+            return num;
+        
+        while(num_string.length() > 1){
+            ans = 0;
+            for(char c : num_string){
+                ans += c - '0';
+            }
+            num_string = to_string(ans);
+        }
+             
+        return ans;
+    }
+};
