@@ -1,0 +1,22 @@
+class Solution {
+public:
+    
+    int minEatingSpeed(vector<int>& piles, int h) {    
+        int low = 1;
+        int high = pow(10,9);
+        
+        while(low < high){
+            int mid = low + (high-low) / 2;
+            int total = 0;
+            for(int p : piles){
+                total += ((p-1) / mid) + 1;
+            }
+            if(total > h)
+                low = mid + 1;
+            else
+                high = mid;
+        }
+        
+        return low;
+    }
+};
