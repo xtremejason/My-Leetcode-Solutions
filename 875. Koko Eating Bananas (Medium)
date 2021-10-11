@@ -1,6 +1,5 @@
 class Solution {
 public:
-    
     int minEatingSpeed(vector<int>& piles, int h) {    
         int low = 1;
         int high = pow(10,9);
