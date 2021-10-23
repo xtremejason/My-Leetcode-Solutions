@@ -1,0 +1,15 @@
+//DP Bottom Up solution
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int max_value = nums[0];
+        int cur_value = nums[0];
+        
+        for(int i=1; i<nums.size(); i++){
+            cur_value = max(cur_value + nums[i], nums[i]);
+            max_value = max(cur_value, max_value);
+        }
+        
+        return max_value;
+    }
+};
