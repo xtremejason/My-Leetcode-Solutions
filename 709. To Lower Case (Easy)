@@ -1,0 +1,11 @@
+class Solution {
+public:
+    string toLowerCase(string s) {
+        for(char& c : s){
+            if(c <= 'Z' && c >= 'A'){
+                c = tolower(c);
+            }
+        }
+        return s;
+    }
+};
