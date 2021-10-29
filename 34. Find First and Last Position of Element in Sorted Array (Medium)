@@ -1,0 +1,48 @@
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int low = 0;
+        int high = nums.size()-1;
+        
+        //Binary Search
+        while(low <= high){
+            int mid = low + (high - low) / 2;
+            
+            //if less than
+            if(nums[mid] < target){
+                low = mid + 1;
+            }
+            
+            //if greater than
+            else if(nums[mid] > target){
+                high = mid - 1;
+            }
+            
+            //equal target
+            else{
+                int ans_pos1 = mid, ans_pos2 = mid;
+
+                //find ans1
+                while(ans_pos1 > 0 && nums[ans_pos1] == target){
+                    if(nums[ans_pos1 - 1] != target)
+                        break;
+                    else
+                        ans_pos1--;
+                }
+                
+                //find ans2
+                while(ans_pos2 < nums.size()-1 && nums[ans_pos2] == target){
+                    cout << "anspos2: " << ans_pos2 << endl;
+                    if(nums[ans_pos2+1] != target)
+                        break;
+                    else
+                        ans_pos2++;
+                }
+                
+               return {ans_pos1, ans_pos2}; 
+            }
+        }
+        
+        return {-1,-1};
+    }
+};
