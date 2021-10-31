@@ -11,19 +11,44 @@
  */
 class Solution {
 public:
-    vector<int> ans;
+    
     vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> ans;
+        return DFS(root, ans);
+    }
+
+    vector<int> DFS(TreeNode* root, vector<int>& ans){
         if(!root)
             return {};
         
         ans.push_back(root->val);
         
         if(root->left)
-            preorderTraversal(root->left);
+            DFS(root->left, ans);
         
         if(root->right)
-            preorderTraversal(root->right);
+            DFS(root->right, ans);
         
         return ans;
     }
+
 };
+    
+
+//First Implementation
+
+//     vector<int> ans;
+//     vector<int> preorderTraversal(TreeNode* root) {
+//         if(!root)
+//             return {};
+        
+//         ans.push_back(root->val);
+        
+//         if(root->left)
+//             preorderTraversal(root->left);
+        
+//         if(root->right)
+//             preorderTraversal(root->right);
+        
+//         return ans;
+//     }
