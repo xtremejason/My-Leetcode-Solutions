@@ -1,0 +1,74 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        if(!root) return {};
+        
+        queue<TreeNode*> q;
+        q.push(root);
+        vector<vector<int>> ans;
+        
+        while(!q.empty()){
+            //to store level by level
+            int len = q.size();
+            vector<int> level;
+            
+            //traverse by level
+            for(int i=0; i<len; i++){
+                TreeNode* node = q.front();
+                level.push_back(node->val);
+                if(node->left) q.push(node->left);
+                if(node->right) q.push(node->right);
+                q.pop();
+            }
+            ans.push_back(level);
+        }
+           
+        return ans;
+    }
+};
+
+
+//     vector<vector<int>> levelOrder(TreeNode* root) {
+//         if(!root) return {};
+        
+//         queue<TreeNode*> Q;
+//         vector<vector<int>> ans;
+//         ans.push_back({root->val});
+//         Q.push(root);
+//         return BFS(root, Q, ans);
+//     }
+    
+//     vector<vector<int>> BFS(TreeNode* root, queue<TreeNode*> Q, vector<vector<int>> ans){
+//         if(Q.size() == 0) return ans;
+        
+//         vector<int> sub_ans;
+//         TreeNode* currentNode = Q.front();
+//         Q.pop();
+        
+//         //Left Node
+//         if(currentNode->left){
+//             Q.push(currentNode->left);
+//             sub_ans.push_back(currentNode->left->val);
+//         }
+        
+//         //Right Node
+//         if(currentNode->right){
+//             Q.push(currentNode->right);
+//             sub_ans.push_back(currentNode->right->val);
+//         }
+        
+//         if(sub_ans.size())
+//             ans.push_back(sub_ans);
+//         return BFS(root, Q, ans);
+//     }
