@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        int end = digits.size()-1;
+        
+        for(int i=end; i>=0; i--){
+            if(digits[i] == 9)
+                digits[i] = 0;
+            else{
+                digits[i]++;
+                return digits;
+            }
+        }
+        
+        //Here because all digits are nines
+        digits[0] = 1;
+        digits.push_back(0);
+        
+        return digits;
+    }
+};
