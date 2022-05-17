@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string, vector<string>> map;
+        
+        //find anagrams & populate hash map
+        for(auto s: strs){
+            string sCopy = s;
+            sort(sCopy.begin(), sCopy.end());
+            map[sCopy].push_back(s);
+        }
+        
+        //create answer array;
+        vector<vector<string>> anagrams;
+        for(auto key: map) anagrams.push_back(key.second);
+        
+        return anagrams;
+    }
+};
