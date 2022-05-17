@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int numJewelsInStones(string jewels, string stones) {
+        unordered_set<char> jewel_set;
+        int numOfJewels = 0;
+        
+        //populate set with jewel letters
+        for(auto c: jewels) jewel_set.insert(c);
+        
+        //look for jewels
+        for(auto c: stones){
+            if(jewel_set.count(c)) numOfJewels++;
+        }
+        
+        return numOfJewels;
+    }
+};
