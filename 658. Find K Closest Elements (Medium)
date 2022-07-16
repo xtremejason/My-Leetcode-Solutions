@@ -1,0 +1,17 @@
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& A, int k, int x) {
+        vector<int> ans;
+        int left = 0, right = A.size() - k;
+        
+        while (left < right) {
+            int mid = low + (high - low) / 2;
+            if (x - A[mid] > A[mid + k] - x) left = mid + 1;
+            else right = mid;
+        }
+        
+        for(int i = left; i < left + k; i++) ans.push_back(A[i]);
+        
+        return ans;
+    }
+};
