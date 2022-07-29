@@ -1,0 +1,48 @@
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<int> coursesOrder;
+        // initialize the graph and indegree map
+        unordered_map<int, vector<int>> graph;
+        unordered_map<int, int> inDegree;
+        
+        for(int i = 0; i < numCourses; i++) {
+            graph[i] = vector<int>();
+            inDegree[i] = 0;
+        }
+        
+        // build graph using dependencies from prerequisites
+        for(auto p : prerequisites) {
+            int parent = p.front(), child = p.back();
+            graph[parent].push_back(child);
+            inDegree[child]++;
+        }
+        
+        // create queue and populate with 'sources' (nodes with 0 inDegrees)
+        queue<int> sources;
+        for(auto p : inDegree) {
+            if(p.second == 0) sources.push(p.first);
+        }
+        
+        // BFS through sources
+        while(!sources.empty()) {
+            int current = sources.front();
+            sources.pop();
+            
+            coursesOrder.push_back(current);
+            
+            // update indegree of all current's children
+            vector<int> children = graph[current];
+            for(auto child : children) {
+                inDegree[child]--;
+                if(inDegree[child] == 0) sources.push(child);
+            } 
+        }
+        
+        // reverse order of vector to get correct ordering 
+        std::reverse(coursesOrder.begin(), coursesOrder.end());
+        
+        // check for cycle in graph
+        return numCourses == coursesOrder.size() ? coursesOrder : vector<int>();        
+    }
+};
