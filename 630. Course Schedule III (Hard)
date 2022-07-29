@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int scheduleCourse(vector<vector<int>>& courses) {
+        if(courses.size() <= 0) return 0;
+        
+        // sort courses in ascending order by second interval
+        sort(courses.begin(), courses.end(), [](const vector<int> &x, const vector<int> &y) {
+            return x[1] < y[1];
+        });
+        
+        // max heap
+        priority_queue<int> maxHeap;
+        
+        int sum = 0;
+        for(auto i : courses) {
+            sum += i[0];
+            maxHeap.push(i[0]);
+            // if sum is exceeded, remove the most expensive course from heap
+            if(sum > i[1]) {
+                sum -= maxHeap.top();
+                maxHeap.pop();
+            }
+        }
+            
+        return maxHeap.size();
+    }
+};
