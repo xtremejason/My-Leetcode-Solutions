@@ -1,0 +1,23 @@
+class Solution {
+ private:
+  int findTargetSubsetsRecursive(map<pair<int,int>, int> &dp, const vector<int> &num, int target, int index, int currentSum) {
+    if(dp.count({index, currentSum}) > 0) return dp[{index,currentSum}];
+    // base cases : solution is found
+    if(target == currentSum && index >= num.size()) return 1;
+    // base case out of bounds
+    if(index >= num.size() || index < 0) return 0;
+
+    // add current num recursively
+    int numOfWaysAddition = findTargetSubsetsRecursive(dp, num, target, index + 1, currentSum + num[index]);
+
+    // subtract current num recursively
+    int numOfWaysSubtraction = findTargetSubsetsRecursive(dp, num, target, index + 1, currentSum - num[index]);
+
+    return dp[{index, currentSum}] = numOfWaysAddition + numOfWaysSubtraction;
+  }
+public:
+    int findTargetSumWays(vector<int>& nums, int target) {
+        map<pair<int,int>,int> dp;
+        return findTargetSubsetsRecursive(dp, nums, target, 0, 0);
+    }
+};
