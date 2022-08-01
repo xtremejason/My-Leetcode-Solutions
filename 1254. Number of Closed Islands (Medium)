@@ -1,0 +1,36 @@
+class Solution {
+private:
+    bool DFS(vector<vector<int>> &grid, int r, int c) {
+        // base cases exit - out of bounds & on edge hence not closed
+        if(r < 0 || r >= grid.size() || c < 0 || c >= grid[0].size()) return false;
+        // return true if island is surrounded by water
+        if(grid[r][c] == 1) return true;
+        
+        // change land to water to store visited nodes
+        grid[r][c] = 1;
+        
+        bool isClosed = true;
+        
+        isClosed &= DFS(grid, r + 1, c);
+        isClosed &= DFS(grid, r - 1, c);
+        isClosed &= DFS(grid, r, c + 1);
+        isClosed &= DFS(grid, r, c - 1);
+        
+        return isClosed;
+    }
+public:
+    int closedIsland(vector<vector<int>>& grid) {
+        int closedIslandCount = 0;
+        // iterate through each element in grid
+        for(int i = 0; i < grid.size(); i++) {
+            for(int j = 0; j < grid[0].size(); j++) {
+                // find land
+                if(grid[i][j] == 0) {
+                    // incrememnt count if closed island
+                    if(DFS(grid, i, j)) closedIslandCount++;
+                }
+            }
+        }
+        return closedIslandCount;
+    }
+};
