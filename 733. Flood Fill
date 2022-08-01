@@ -1,0 +1,23 @@
+class Solution {
+private:
+    void DFS(vector<vector<int>> &image, int r, int c, int color, int oldColor) {
+        // base case index out of bounds
+        if(r < 0 || r >= image.size() || c < 0 || c > image[0].size()) return;
+        // base case not correct color
+        if(image[r][c] != oldColor) return;
+        
+        // change to new color and recursively call 4-directionally
+        image[r][c] = color;
+        
+        DFS(image, r + 1, c, color, oldColor);
+        DFS(image, r - 1, c, color, oldColor);
+        DFS(image, r, c + 1, color, oldColor);
+        DFS(image, r, c - 1, color, oldColor); 
+    }
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        int oldColor = image[sr][sc];
+        if(image[sr][sc] != color) DFS(image, sr, sc, color, oldColor);
+        return image;
+    }
+};
