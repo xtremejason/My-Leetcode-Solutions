@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> ans;
+        // queue to stage subsets and build string pair<string, openCount>
+        queue<pair<string, int>> queue; 
+        queue.push(make_pair("", 0));
+        
+        // BFS through queue
+        while(!queue.empty()) {
+            auto current = queue.front();
+            queue.pop();
+            // add to ans if size n
+            if(current.first.length() == n * 2) {
+                ans.push_back(current.first);
+                continue;
+            }
+                  
+            // add open bracket
+            if(current.second < n) queue.push(make_pair(current.first + "(", current.second+1));
+            
+            int closeCount = current.first.length() - current.second;
+            // add close bracket if # open bracket greater than close bracket
+            if(current.second > closeCount) queue.push(make_pair(current.first + ")", current.second));
+        }
+        return ans;
+    }
+};
