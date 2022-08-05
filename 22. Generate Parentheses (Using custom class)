@@ -1,0 +1,39 @@
+// solve using custom String Class
+class ParenthesesString {
+    public:
+        string str;
+        int openCount;
+        int closeCount;
+    
+        ParenthesesString(string str, int openCount, int closeCount) {
+            this->str = str;
+            this->openCount = openCount;
+            this->closeCount = closeCount;
+        }
+};
+
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> ans;
+        queue<ParenthesesString> queue;
+        queue.push(ParenthesesString("", 0, 0));
+        
+        // BFS through queue
+        while(!queue.empty()) {
+            ParenthesesString current = queue.front();
+            queue.pop();
+            if(current.openCount == n && current.closeCount == n) { // add to answer vector
+                ans.push_back(current.str);
+                continue; // skip to next loop iteration
+            }
+            else {
+                // add open bracket 
+                if(current.openCount < n) queue.push({current.str + "(", current.openCount + 1, current.closeCount});
+                // add close bracket if openCount is greater 
+                if(current.closeCount < current.openCount) queue.push({current.str + ")", current.openCount, current.closeCount + 1});
+            }
+        } 
+        return ans;
+    }
+};
