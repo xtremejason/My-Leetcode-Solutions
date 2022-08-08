@@ -1,0 +1,58 @@
+class Solution {
+public:
+    string alienOrder(vector<string>& words) {
+        string sortedOrder = "";
+        
+        // a. initialize graph and inDegrees
+        unordered_map<char, vector<char>> graph;
+        unordered_map<char, int> inDegree;
+        for(auto word : words) {
+            for(char character : word) {
+                graph[character] = vector<char>();
+                inDegree[character] = 0;
+            }
+        }
+        
+        // b. build graph and inDegrees by iterating through words
+        for(int i = 0; i < words.size() - 1; i++) {
+            string word1 = words[i], word2 = words[i + 1];
+            for(int j = 0; j < min(word1.length(), word2.length()); j++) {
+                char parent = word1[j], child = word2[j];
+                // compare letters of words until they are not equal
+                if(parent != child) {
+                    graph[parent].push_back(child);
+                    inDegree[child]++;
+                    break; // exit loop once different character is found
+                }
+                // edge case
+                if(j == min(word1.length(), word2.length()) - 1 && word1.length() > word2.length())
+                    return "";
+            }
+        }
+        
+        // c. create sources queue and populate with nodes of inDegrees value of 0
+        queue<char> sources;
+        for(auto node : inDegree) {
+            if(node.second == 0) sources.push(node.first);
+        }
+        
+        // d. BFS
+        while(!sources.empty()) {
+            char current = sources.front();
+            sources.pop();
+            sortedOrder += current; // append current to answer
+            
+            // iterate through all children to decrement inDegree
+            vector<char> children = graph[current];
+            for(auto child : children) {
+                inDegree[child]--;
+                if(inDegree[child] == 0) sources.push(child);
+            }
+        }
+        
+        // e. check for cycles
+        if(sortedOrder.length() != inDegree.size()) return "";
+        
+        return sortedOrder;
+    }
+};
