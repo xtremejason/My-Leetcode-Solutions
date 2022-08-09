@@ -1,0 +1,23 @@
+// Recursive Brute Force + DP (Top-down)
+class Solution {
+private:
+    int recursive(vector<vector<int>> &triangle, int r, int c, vector<vector<int>> &dp) {
+        // base case
+        //if(r < 0 || c < 0 || r >= triangle.size() || c >= triangle[r].size()) return 0;
+        if(r == triangle.size()) return 0;
+        if(dp[r][c] == -1) {
+            int left = triangle[r][c] + recursive(triangle, r + 1, c, dp);
+            int right = triangle[r][c] + recursive(triangle, r + 1, c + 1, dp);
+            dp[r][c] = min(left, right);
+        }
+
+        return dp[r][c];
+    }
+
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int n = triangle.size();
+        vector<vector<int>> dp(n, vector<int>(n, -1)); // create dp table
+        return recursive(triangle, 0, 0, dp);
+    }
+};
