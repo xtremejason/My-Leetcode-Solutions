@@ -1,0 +1,18 @@
+class Solution {
+public:
+    vector<int> getRow(int rowIndex) {
+        // initialize first row
+        vector<vector<int>> triangle(1, vector<int>(1,1));
+        
+        for(int i = 1; i <= rowIndex; i++) {
+            vector<int> current;
+            for(int j = 0; j < i + 1; j++) {
+                if(j == 0 || j == i) current.push_back(1);
+                else current.push_back(triangle[i-1][j-1] + triangle[i-1][j]);
+            }
+            triangle.push_back(current);
+        }
+        
+        return triangle[rowIndex];
+    }
+};
