@@ -1,0 +1,33 @@
+class Solution {
+private:
+    struct endCompare {
+        bool operator()(const vector<int> &x, const vector<int> &y) {
+            return x.back() > y.back();
+        }
+    };
+public:
+    int minMeetingRooms(vector<vector<int>>& intervals) {
+        int minRooms = 0;
+        
+        // sort by increasing starting interval
+        sort(intervals.begin(), intervals.end(), [](const vector<int> &x, const vector<int> &y) {
+            return x.front() < y.front(); });
+        
+        // min heap sorted by end interval
+        priority_queue<vector<int>, vector<vector<int>>, endCompare> minHeap; 
+        
+        for(auto interval : intervals) {
+            // remove all meetings that have ended
+            while(!minHeap.empty() && interval[0] >= minHeap.top()[1]) {
+                minHeap.pop();
+            }
+            // add current meeting to heap
+            minHeap.push(interval);
+            
+            // update minRooms by maximum size of heap
+            minRooms = max(int(minHeap.size()), minRooms);
+        }
+            
+        return minRooms;
+    }
+};
