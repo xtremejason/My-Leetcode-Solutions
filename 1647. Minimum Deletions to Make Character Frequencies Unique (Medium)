@@ -1,0 +1,45 @@
+class Solution {
+public:
+    int minDeletions(string s) {
+        int deletions = 0;
+        unordered_map<char,int> charFrequency;
+        for(char c : s) charFrequency[c]++; // count char frequency
+        
+        // add map pairs to vector
+        vector<pair<char,int>> arr(charFrequency.begin(), charFrequency.end());
+        
+        // sory arr by count ascending
+        sort(arr.begin(), arr.end(), [] (const pair<char,int> &x, const pair<char,int> &y) {
+            return x.second < y.second;
+        });
+
+        set<int> unavailableFreq; // add seen frequencies
+        
+        for(auto p : arr) {
+            if(unavailableFreq.count(p.second) == 0) {
+                unavailableFreq.insert(p.second);
+                continue;
+            }
+            
+            // frequency already exists, find # to delete
+            int currentFreq = p.second;
+            // decrement frequency until one is availble or 0
+            while(currentFreq-- > 0) { 
+                // no available frequencies found
+                if(currentFreq == 0) {
+                    deletions += p.second;
+                    break;
+                }
+                // available frequency found
+                if(unavailableFreq.count(currentFreq) == 0) {
+                    unavailableFreq.insert(currentFreq);
+                    deletions += p.second - currentFreq;
+                    break;
+                }       
+            }  
+        }
+        return deletions;
+    }
+};
+// aaa bb cc e
+// bbbb c e a
