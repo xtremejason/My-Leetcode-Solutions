@@ -1,0 +1,16 @@
+class Solution {
+public:
+    vector<int> sumZero(int n) {
+        vector<int> arr;
+        int pairsToAdd = n / 2;
+        
+        if(n % 2 != 0) arr.push_back(0);
+        
+        for(int i = 1; i < pairsToAdd + 1; i++) {
+            arr.push_back(i);
+            arr.push_back(-i);
+        }
+        
+        return arr;
+    }
+};
