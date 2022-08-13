@@ -1,0 +1,35 @@
+// Two Pointer Method
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        if(nums.size() < 3 || nums.front() > 0) return {};
+        vector<vector<int>> ans;
+        
+        for(int i = 0; i < nums.size(); i++) {
+            // if number is positive, no triplet possible
+            if(nums[i] > 0) break;
+            // avoid duplicate numbers
+            if(i > 0 && nums[i] == nums[i-1]) continue;
+            
+            int start = i + 1, end = nums.size() - 1;
+            // move start and end pointers ahead to find triplet
+            while(start < end) {
+                int sum = nums[i] + nums[start] + nums[end];
+                // need bigger number
+                if(sum < 0) start++;
+                // need smaller number
+                else if(sum > 0) end--;
+                // answer found
+                else {
+                    ans.push_back({nums[i], nums[start], nums[end]});
+                    int last_low_num = nums[start], last_high_num = nums[end];
+                    while(start < end && nums[start] == last_low_num) start++;
+                    while(start < end && nums[end] == last_high_num) end--;
+                }
+            }
+        }
+    
+        return ans;
+    }
+};
