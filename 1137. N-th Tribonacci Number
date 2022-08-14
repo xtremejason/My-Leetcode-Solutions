@@ -1,0 +1,39 @@
+// bottom up no added space
+class Solution {
+public:
+    int tribonacci(int n) {
+        if(n == 0) return 0;
+        if(n == 1 || n == 2) return 1;
+        
+        int first = 0, second = 1, third = 1;
+        
+        for(int i = 2; i < n; i++) {
+            int newN = first + second + third;
+            first = second;
+            second = third;
+            third = newN;
+        }
+        
+        return third;
+    }
+};
+
+
+// // DP with memoization
+// class Solution {
+// private:
+//     int tRecursive(int n, vector<int> &dp) {
+//         if(n == 0) return 0;
+//         if(n == 1 || n == 2) return 1;
+        
+//         if(dp[n] == -1) 
+//             dp[n] = tRecursive(n-1, dp) + tRecursive(n-2, dp) + tRecursive(n-3, dp);
+        
+//         return dp[n];
+//     }
+// public:
+//     int tribonacci(int n) {
+//         vector<int> dp(n + 1, -1);
+//         return tRecursive(n, dp);
+//     }
+// };
