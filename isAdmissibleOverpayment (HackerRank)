@@ -1,0 +1,28 @@
+double comparePrice(double price, double percentage, bool isHigh) {
+    double originalPrice = 0;
+    if(isHigh == true) {
+        originalPrice = price / ((100.0 + percentage) / 100.0);
+    } else {
+        originalPrice = price / ((100.0 - percentage) / 100.0);
+    }
+    return price - originalPrice;
+}
+// 100 * 1.10 = 110     110 / 1.10 = 100
+// 100 * .95 = 95       95 / .95 = 100
+bool solution(vector<double> prices, vector<string> notes, double x) {
+    double priceDifference = 0;
+    
+    // extract data from notes
+    for(int i = 0; i < notes.size(); i++) {
+        if(notes[i] == "Same as in-store") continue; 
+        stringstream ss(notes[i]);
+        string percentage, highOrLow;
+        getline(ss, percentage, ' ');
+        getline(ss, highOrLow, ' ');
+        
+        percentage.pop_back(); // remove % symbol
+        priceDifference += comparePrice(prices[i], stod(percentage), highOrLow == "higher");
+    }
+    // account for precision error in float comparisons
+    return priceDifference < x || priceDifference - x < 1e-9;
+}
