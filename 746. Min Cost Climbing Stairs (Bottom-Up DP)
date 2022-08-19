@@ -1,0 +1,85 @@
+// Bottom-Up Iterative Optimization (Remove call-stack)
+class Solution {
+public:
+    int minCostClimbingStairs(vector<int>& cost) {
+        int n = cost.size();
+        vector<int> dp(n, -1);
+        
+        for(int i = 0; i < n; i++) {
+            if(i < 2) dp[i] = cost[i];
+            else {
+                dp[i] = cost[i] + min(dp[i-1], dp[i-2]);
+            }
+        } 
+        return min(dp[n-1], dp[n-2]);
+    }
+};
+
+
+
+// // Top-Down DP
+// class Solution {
+// private:
+//     int recursiveClimb(vector<int> cost, int currentStep, vector<int> &dp) {
+//         if(currentStep < 0) return 0;
+//         if(currentStep == 0 || currentStep == 1) return cost[currentStep];
+        
+//         if(dp[currentStep] == -1) {
+//             int firstStepCost = recursiveClimb(cost, currentStep - 1, dp);
+//             int secondStepCost = recursiveClimb(cost, currentStep - 2, dp);
+//             dp[currentStep] = cost[currentStep] + min(firstStepCost, secondStepCost);
+//         }
+        
+//         return dp[currentStep]; 
+//     }
+// public:
+//     int minCostClimbingStairs(vector<int>& cost) {
+//         int n = cost.size();
+//         vector<int> dp(n, -1); // add dp
+
+//         return min(recursiveClimb(cost, n-1, dp), recursiveClimb(cost, n-2, dp));
+//     }
+// };
+
+// // Recursive Brute-Force 
+// class Solution {
+// private:
+//     int recursiveClimb(vector<int> cost, int currentStep) {
+//         if(currentStep < 0) return 0;
+//         if(currentStep == 0 || currentStep == 1) return cost[currentStep];
+        
+//         int firstStepCost = recursiveClimb(cost, currentStep-1);
+//         int secondStepCost = recursiveClimb(cost, currentStep-2);
+        
+//         return cost[currentStep] + min(firstStepCost, secondStepCost); 
+//     }
+// public:
+//     int minCostClimbingStairs(vector<int>& cost) {
+//         int n = cost.size();
+
+//         return min(recursiveClimb(cost, n-1), recursiveClimb(cost, n-2));
+//     }
+// };
+
+
+
+// // Recursive Brute Force Solution - Tried to do Top-Down DP from Bottom Up... unable to add memoization
+// // Needed to approach recursive solution from end to start
+// class Solution {
+//     int recursiveClimb(const vector<int>& cost, int totalCost, int currentStep) {
+//         // base case: return answer when last or second to last step reached
+//         if(currentStep >= int(cost.size()) - 2) return totalCost; 
+//         // take first step
+//         int firstStepCost = recursiveClimb(cost, totalCost + cost[currentStep + 1], currentStep + 1);
+//         // take second step
+//         int secondStepCost = recursiveClimb(cost, totalCost + cost[currentStep + 2], currentStep + 2);
+        
+//         return min(firstStepCost, secondStepCost);
+//     }
+// public:
+//     int minCostClimbingStairs(vector<int>& cost) {
+//         if(cost.size() < 2) return 0;
+//         // start from either first or second step
+//         return min(recursiveClimb(cost, cost[0], 0), recursiveClimb(cost, cost[1], 1));
+//     }
+// };
