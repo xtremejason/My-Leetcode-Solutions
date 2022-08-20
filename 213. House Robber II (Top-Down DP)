@@ -1,0 +1,25 @@
+class Solution {
+private:
+    int recursiveRob(const vector<int> nums, int index, vector<int> &dp) {
+        if(index < 0 || index >= nums.size()) return 0; // base case
+        
+        if(dp[index] == -1) {
+            int sum1 = nums[index] + recursiveRob(nums, index + 2, dp); // rob house
+            int sum2 = recursiveRob(nums, index + 1, dp); // skip house
+            dp[index] = max(sum1, sum2);
+        }                            
+        return dp[index];
+    }
+public:
+    int rob(vector<int>& nums) {
+        if(nums.size() == 1) return nums.front();
+        int n = nums.size();
+        vector<int> dp(n, -1);
+        vector<int> dp2(n, -1);
+        // create two separate vectors that exclude either first or last element.
+        vector<int> numsExcludeFirst(nums.begin() + 1, nums.end());
+        vector<int> numsExcludeLast(nums.begin(), nums.end() - 1);
+        // answer will be the greater of the result from these two vectors
+        return max(recursiveRob(numsExcludeFirst, 0, dp), recursiveRob(numsExcludeLast, 0, dp2));
+    }
+};
