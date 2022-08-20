@@ -1,0 +1,40 @@
+// Top-Down DP Optimization
+class Solution {
+private:
+    int recursiveRob(const vector<int> &nums, int index, vector<int> &dp) {
+        if(index < 0 || index >= int(nums.size())) return 0; // base case
+        if(dp[index] == -1) {
+            int sum1 = nums[index] + recursiveRob(nums, index - 2, dp); // rob current house
+            int sum2 = recursiveRob(nums, index - 1, dp); // skip current house
+            dp[index] = max(sum1, sum2);
+        }
+        return dp[index];
+    }
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n, -1);
+        return recursiveRob(nums, n - 1, dp);
+    }
+};
+
+
+// // Recursive Brute Force from beginning to end
+// class Solution {
+// private:
+//     int recursiveRob(const vector<int> &nums, int index) {
+//         // base case
+//         if(index < 0 || index >= int(nums.size())) return 0;
+        
+//         // rob current house
+//         int sum1 =  nums[index] + recursiveRob(nums, index + 2);
+//         // skip current house
+//         int sum2 =  recursiveRob(nums, index + 1);
+        
+//         return max(sum1, sum2);
+//     }
+// public:
+//     int rob(vector<int>& nums) {
+//         return recursiveRob(nums, 0);
+//     }
+// };
