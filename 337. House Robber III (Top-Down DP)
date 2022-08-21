@@ -1,0 +1,60 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+// Top-Down DP Optimization
+class Solution {
+private:
+    int DFS(TreeNode* root, unordered_map<TreeNode*, int> &dp) {
+        if(root == nullptr) return 0;
+        
+        if(dp.count(root) == 0) {
+            int sum = 0;
+            if(root->left != nullptr)
+                sum += DFS(root->left->left, dp) + DFS(root->left->right, dp);
+            if(root->right != nullptr)
+                sum += DFS(root->right->left, dp) + DFS(root->right->right, dp);
+            dp[root] = max(sum + root->val, DFS(root->left, dp) + DFS(root->right, dp));
+        }
+        
+        // max of sum including current node or sum while skipping current node
+        return dp[root];
+    }
+    
+public:
+    int rob(TreeNode* root) {
+        unordered_map<TreeNode*, int> dp;
+        return DFS(root, dp);
+    }
+};
+
+
+// // Brute Force Recursion
+// class Solution {
+// private:
+//     int DFS(TreeNode* root, unordered_map<TreeNode*, int> &dp) {
+//         if(root == nullptr) return 0;
+        
+//         int sum = 0;
+//         if(root->left != nullptr)
+//             sum += DFS(root->left->left, dp) + DFS(root->left->right, dp);
+//         if(root->right != nullptr)
+//             sum += DFS(root->right->left, dp) + DFS(root->right->right, dp);
+
+//         // max of sum including current node or sum while skipping current node
+//         return max(sum + root->val, DFS(root->left, dp) + DFS(root->right, dp));
+//     }
+    
+// public:
+//     int rob(TreeNode* root) {
+//         unordered_map<TreeNode*, int> dp;
+//         return DFS(root, dp);
+//     }
+// };
