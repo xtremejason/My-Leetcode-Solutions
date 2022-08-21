@@ -1,0 +1,22 @@
+// Bottom Up Iterative
+class Solution {
+private:
+    int robber(const vector<int> &nums, int left, int right) {
+        int prev = 0, current = 0;
+        
+        for(int i = left; i <= right; i++) {
+            int temp = max(nums[i] + prev, current);
+            prev = current;
+            current = temp;
+        }
+        
+        return current;
+    }
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if(n < 2) return n ? nums[0] : 0
+        // run for two separate vectors either containing first OR last element
+        return max(robber(nums, 1, n - 1), robber(nums, 0, n - 2));
+    }
+};
