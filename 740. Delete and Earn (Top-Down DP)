@@ -1,0 +1,31 @@
+class Solution {
+private:
+    int solve(const vector<int> &nums, int i, vector<int> &dp) {
+        if(i >= nums.size()) return 0; // exit case - out of bounds
+        
+        if(dp[i] != -1) return dp[i]; // add memoization
+
+        int currentValue = nums[i], currentSum = nums[i], currentIndex = i + 1;
+        
+        // calculate sum of current values
+        while(currentIndex < nums.size() && nums[currentIndex] == currentValue) {
+            currentSum += nums[i];
+            currentIndex++;
+        }
+        
+        // skip all nums equal to currentValue + 1
+        while(currentIndex < nums.size() && nums[currentIndex] == currentValue + 1) {
+            currentIndex++;
+        }
+        
+        // include current num or skip
+        return dp[i] = max(currentSum + solve(nums, currentIndex, dp), solve(nums, i + 1, dp));
+    }
+public:
+    int deleteAndEarn(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+        vector<int> dp(n, -1);
+        return solve(nums, 0, dp);
+    }
+};
