@@ -1,0 +1,44 @@
+// Top-Down DP - memoization added
+class Solution {
+private:
+    int recursiveJump(const vector<int> &nums, int index, vector<int> &dp) {
+        if(index < 0 || index >= nums.size() - 1) return 0;
+        
+        if(dp[index] != -1) return dp[index]; // add DP
+        
+        // explore all possible jumps from current index
+        int minJumps = INT_MAX - 1;
+        for(int j = 1; j <= nums[index]; j++) {
+            minJumps = min(minJumps, 1 + recursiveJump(nums, index + j, dp)); 
+        }
+        return dp[index] = minJumps;
+    }
+public:
+    int jump(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n, -1);
+        return recursiveJump(nums, 0, dp);
+    }
+};
+
+
+
+
+// // Recursive Brute Force
+// class Solution {
+// private:
+//     int recursiveJump(const vector<int> &nums, int index) {
+//         if(index < 0 || index >= nums.size() - 1) return 0;
+        
+//         // explore all possible jumps from current index
+//         int minJumps = INT_MAX - 1;
+//         for(int j = 1; j <= nums[index]; j++) {
+//             minJumps = min(minJumps, 1 + recursiveJump(nums, index + j)); 
+//         }
+//         return minJumps;
+//     }
+// public:
+//     int jump(vector<int>& nums) {
+//         return recursiveJump(nums, 0);
+//     }
+// };
