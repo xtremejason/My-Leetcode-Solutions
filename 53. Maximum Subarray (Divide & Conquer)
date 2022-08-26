@@ -1,0 +1,63 @@
+// Divide & Conquer Algorithm
+class Solution {
+private:
+    int divideNConquer(const vector<int> &nums, int L, int R) {
+        if(L > R) return INT_MIN;
+        
+        int mid = (L + R) / 2, leftMax = 0, rightMax = 0;
+        
+        // compute leftSum & leftMax
+        for(int i = mid - 1, currentSum = 0; i >= L; i--) {
+            currentSum += nums[i];
+            leftMax = max(leftMax, currentSum);
+        }
+        
+        // compute rightSum & rightMax
+        for(int i = mid + 1, currentSum = 0; i <= R; i++) {
+            currentSum += nums[i];
+            rightMax = max(rightMax, currentSum);
+        }
+        
+        // result is max of either left || right || left + mid + right
+        return max({ divideNConquer(nums, L, mid-1), divideNConquer(nums, mid+1, R), leftMax + nums[mid] + rightMax });
+    }
+public:
+    int maxSubArray(vector<int>& nums) {
+        int n = nums.size();
+        return divideNConquer(nums, 0, n - 1);
+    }
+};
+
+
+
+// // Kadane's Algorithm
+// class Solution {
+// public:
+//     int maxSubArray(vector<int>& nums) {
+//         int currentSubarray = 0, maxSubarray = INT_MIN;
+        
+//         for(auto n : nums) {
+//             // create new subarray if current num is larger
+//             currentSubarray = max(currentSubarray + n, n);
+//             maxSubarray = max(currentSubarray, maxSubarray);
+//         }
+//         return maxSubarray;
+//     }
+// };
+
+
+// Brute Force O(n^2)
+// class Solution {
+// public:
+//     int maxSubArray(vector<int>& nums) {
+//         int maxSeen = INT_MIN;
+//         for(int i = 0; i < nums.size(); i++) {
+//             int sum = 0;
+//             for(int j = i; j < nums.size(); j++) {
+//                 sum += nums[j];
+//                 maxSeen = max(sum, maxSeen);
+//             }
+//         }
+//         return maxSeen;
+//     }
+// };
