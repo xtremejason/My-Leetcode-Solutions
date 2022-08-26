@@ -1,0 +1,21 @@
+// Kadane's Algorithm
+class Solution {
+public:
+    int maxSubarraySumCircular(vector<int>& nums) {
+        int currentMax = 0, maxSum = nums[0], currentMin = 0, minSum = nums[0], total = 0;
+        
+        for(int n : nums) {
+            currentMax = max(currentMax + n, n);
+            maxSum = max(currentMax, maxSum);
+            
+            currentMin = min(currentMin + n, n);
+            minSum = min(currentMin, minSum);
+            
+            total += n;
+        }
+        
+        // 1. Max Array is non circular therefore maxSum contains answer
+        // 2. Max Array is circular, so we can calculate minSum, and subtract from total
+        return maxSum > 0 ? max(total - minSum, maxSum) : maxSum;
+    }
+};
