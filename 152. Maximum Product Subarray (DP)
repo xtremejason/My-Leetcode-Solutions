@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        if(nums.empty()) return 0;
+        
+        // Track both min & max because negative numbers can make either 
+        // a possile answer
+        int ans = nums[0], minSoFar = nums[0], maxSoFar = nums[0];
+        
+        for(int i = 1; i < nums.size(); i++) {
+            int cur = nums[i];
+            
+            int tempMax = max({cur, minSoFar * cur, maxSoFar * cur});
+            minSoFar = min({cur, minSoFar * cur, maxSoFar * cur});
+            maxSoFar = tempMax;
+            
+            ans = max(ans, maxSoFar);
+        }
+        
+        return ans;
+    }
+};
+
+
+
+// Brute Force
+// class Solution {
+// public:
+//     int maxProduct(vector<int>& nums) {
+//         int ans = nums[0];
+        
+//         for(int i = 0; i < nums.size(); i++) {
+//             int currentProduct = 1;
+//             for(int j = i; j < nums.size(); j++) {
+//                 currentProduct *= nums[j];
+//                 ans = max(ans, currentProduct);
+//             }
+//         } 
+//         return ans;
+//     }
+// };
