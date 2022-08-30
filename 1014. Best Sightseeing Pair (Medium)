@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int maxScoreSightseeingPair(vector<int>& values) {
+        int maxLeftValue = values[0], bestScore = 0;
+        int n = values.size();
+        
+        for(int j = 1; j < n; j++) {
+            bestScore = max(bestScore, maxLeftValue + values[j] - j);
+            maxLeftValue = max(maxLeftValue, values[j] + j);
+        }
+        
+        return bestScore;
+    }
+};
+
+
+// // Brute Force
+// class Solution {
+// public:
+//     int maxScoreSightseeingPair(vector<int>& values) {
+//         int n = values.size(), ans = 0;
+//         for(int i = 0; i < n; i++) {
+//             for(int j = i + 1; j < n; j++) {
+//                 int pairValue = values[i] + values[j] + i - j;
+//                 ans = max(ans, pairValue);
+//             }
+//         }
+//         return ans;
+//     }
+// };
