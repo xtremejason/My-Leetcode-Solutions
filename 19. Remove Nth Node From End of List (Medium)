@@ -1,0 +1,76 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* slow = head, *fast = head;
+        
+        // move fast ptr n # of nodes
+        for(int i = 0; i < n; i++) fast = fast->next;
+        
+        // fast is null so we have to delete the head
+        if(fast == nullptr) return head->next;
+        
+        // move fast ptr to last node of LL
+        while(fast->next != nullptr) {
+            fast = fast->next;
+            slow = slow->next;
+        }
+        
+        slow->next = slow->next->next; // remove n-th from last node
+        
+        return head;
+    }
+};
+
+
+
+// /**
+//  * Definition for singly-linked list.
+//  * struct ListNode {
+//  *     int val;
+//  *     ListNode *next;
+//  *     ListNode() : val(0), next(nullptr) {}
+//  *     ListNode(int x) : val(x), next(nullptr) {}
+//  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+//  * };
+//  */
+// class Solution {
+// public:
+//     ListNode* removeNthFromEnd(ListNode* head, int n) {
+//         if(!head) return nullptr;
+//         int length = 0;
+        
+//         // find length of LL
+//         ListNode* forward = head;
+//         while(forward != nullptr) {
+//             forward = forward->next;
+//             length++;
+//         }
+        
+//         // find previous node of the one being removed
+//         ListNode* lagging = head;
+//         if(n < length){
+//             for(int i = 1; i < length - n; i++) lagging = lagging->next;
+//             if(lagging->next == nullptr) lagging->next = nullptr; // edge case: next->next doesn't exist
+//             else lagging->next = lagging->next->next;
+//         }
+        
+//         // remove head
+//         else if(n == length) {
+//             return head->next;
+//         }
+        
+//         return head;
+//     }
+// };
+
+
