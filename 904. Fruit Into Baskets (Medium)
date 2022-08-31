@@ -1,0 +1,22 @@
+// Sliding Window
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+        unordered_map<int, int> freqMap;
+        int maxNumFruits = 0, windowStart = 0, n = fruits.size();
+        
+        for(int windowEnd = 0; windowEnd < n; windowEnd++) {
+            int rightFruit = fruits[windowEnd];
+            freqMap[rightFruit]++;
+            
+            // shrink window
+            while(freqMap.size() > 2) {
+                int leftFruit = fruits[windowStart++];
+                freqMap[leftFruit]--;
+                if(freqMap[leftFruit] == 0) freqMap.erase(leftFruit);
+            }
+            maxNumFruits = max(maxNumFruits, windowEnd - windowStart + 1); // update ans
+        }
+        return maxNumFruits;
+    }
+};
