@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        unordered_map<char, int> freqMap;
+        int windowStart = 0, maxRepeatedLetterCount = 0, maxLength = 0;
+        
+        for(int windowEnd = 0; windowEnd < s.length(); windowEnd++) {
+            char rightChar = s[windowEnd];
+            freqMap[rightChar]++;
+            // store most repeated character count
+            maxRepeatedLetterCount = max(maxRepeatedLetterCount, freqMap[rightChar]);
+            
+            // shrink window by 1 - to bring window to meet k constraint
+            if(windowEnd - windowStart + 1 - maxRepeatedLetterCount > k) {
+                char leftChar = s[windowStart++];
+                freqMap[leftChar]--;
+            }
+            maxLength = max(maxLength, windowEnd - windowStart + 1);
+            
+        }
+        return maxLength;
+    }
+};
