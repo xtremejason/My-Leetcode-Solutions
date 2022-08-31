@@ -1,0 +1,22 @@
+// Sliding Window
+class Solution {
+public:
+    int lengthOfLongestSubstringKDistinct(string s, int k) {
+        unordered_map<char,int> freqMap;
+        int longestSize = 0, windowStart = 0;
+        
+        for(int windowEnd = 0; windowEnd < s.length(); windowEnd++) {
+            char endChar = s[windowEnd];
+            freqMap[endChar]++;
+            
+            // shrink window
+            while(freqMap.size() > k) {
+                char startChar = s[windowStart++];
+                freqMap[startChar]--;
+                if(freqMap[startChar] == 0) freqMap.erase(startChar); 
+            }
+            longestSize = max(longestSize, windowEnd - windowStart + 1);
+        }
+        return longestSize;
+    }
+};
