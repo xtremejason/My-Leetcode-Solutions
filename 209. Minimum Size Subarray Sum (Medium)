@@ -1,0 +1,17 @@
+// Sliding Window
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int windowStart = 0, currentSum = 0, minLength = INT_MAX, n = nums.size();
+        
+        for(int windowEnd = 0; windowEnd < n; windowEnd++) {
+            currentSum += nums[windowEnd];
+            // shrink window
+            while(currentSum >= target) {
+                minLength = min(minLength, windowEnd - windowStart + 1);
+                currentSum -= nums[windowStart++];
+            }
+        }
+        return minLength == INT_MAX ? 0 : minLength;
+    }
+};
