@@ -1,0 +1,47 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+private:
+    // reverse LinkedList
+    ListNode* reverse(ListNode* head) {
+        ListNode* prev = nullptr;
+        while(head != nullptr) {
+            ListNode* next = head->next;
+            head->next = prev;
+            prev = head;
+            head = next;
+        }
+        return prev;
+    }
+public:
+    bool isPalindrome(ListNode* head) {
+        ListNode* slow = head, *fast = head;
+        
+        // move slow pointer to middle of LL
+        while(fast != nullptr && fast->next != nullptr) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        ListNode* headOfSecondHalf = reverse(slow); // reverse second half of LL
+        ListNode* copyHeadOfSecondHalf = headOfSecondHalf; // store to revert back later
+        
+        // compare LL halves to check if palindrome
+        while(head != nullptr && headOfSecondHalf != nullptr) {
+            if(head->val != headOfSecondHalf->val) return false;
+            head = head->next;
+            headOfSecondHalf = headOfSecondHalf->next;
+        }
+        
+        reverse(copyHeadOfSecondHalf); // revert LL back to original state
+        return true;
+    }
+};
