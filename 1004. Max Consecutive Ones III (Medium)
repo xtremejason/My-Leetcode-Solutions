@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) {
+        unordered_map<int, int> freqMap;
+        int windowStart = 0, onesCount = 0, zeroesReplaced = 0, maxLength = 0, n = nums.size();
+        
+        for(int windowEnd = 0; windowEnd < n; windowEnd++) {
+            int endNum = nums[windowEnd];
+            freqMap[endNum]++;
+            if(endNum == 1) onesCount++;
+            
+            // shrink window
+            if(windowEnd - windowStart + 1 - onesCount > k) {
+                int startNum = nums[windowStart++];
+                freqMap[startNum]--;
+                if(startNum == 1) onesCount--;
+            }
+            maxLength = max(maxLength, windowEnd - windowStart + 1);
+        }
+        
+        return maxLength;
+        
+    }
+};
